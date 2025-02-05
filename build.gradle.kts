@@ -1,5 +1,5 @@
 plugins {
-	kotlin("jvm") version "2.1.0"
+	kotlin("jvm") version "2.1.10"
 	id("java-library")
 	id("maven-publish")
 	id("nebula.release") version "19.0.10"
@@ -13,11 +13,14 @@ kotlin {
 
 repositories {
 	mavenCentral()
-	mavenLocal()
+	maven("https://maven.pkg.github.com/shypl/packages").credentials {
+		username = ""
+		password = project.property("shypl.gpr.key") as String
+	}
 }
 
 dependencies {
-	implementation("org.shypl.tool:tool-lang:1.0.0-SNAPSHOT")
+	implementation("org.shypl.tool:tool-lang:1.0.0")
 	testImplementation(kotlin("test"))
 }
 
@@ -29,4 +32,12 @@ publishing {
 	publications.create<MavenPublication>("Library") {
 		from(components["java"])
 	}
+	repositories.maven("https://maven.pkg.github.com/shypl/packages").credentials {
+		username = project.property("shypl.gpr.user") as String
+		password = project.property("shypl.gpr.key") as String
+	}
+}
+
+tasks.release {
+	finalizedBy(tasks.publish)
 }
