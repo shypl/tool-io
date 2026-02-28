@@ -70,7 +70,7 @@ class ArrayByteBuffer(initialCapacity: Int = 10) : ByteBuffer, ByteBuffer.ArrayV
 	}
 	
 	override fun isReadable(size: Int): Boolean {
-		return readableSize >= size
+		return size >= 0 && readableSize >= size
 	}
 	
 	override fun readByte(): Byte {
@@ -164,7 +164,7 @@ class ArrayByteBuffer(initialCapacity: Int = 10) : ByteBuffer, ByteBuffer.ArrayV
 	
 	override fun ensureWrite(size: Int) {
 		if (size < 0) {
-			throw BufferUnderflowException("Writing size is negative ($size)")
+			throw IllegalArgumentException("Writing size is negative ($size)")
 		}
 		if (_readerIndex == _writerIndex && _readerIndex != 0) {
 			clear()

@@ -12,6 +12,9 @@ class SubInputByteBuffer() : InputByteBuffer {
 	}
 	
 	fun bindSource(source: InputByteBuffer, size: Int) {
+		if (size < 0) {
+			throw BufferUnderflowException(size)
+		}
 		if (source.isReadable(size)) {
 			this.source = source
 			this.size = size
@@ -39,7 +42,7 @@ class SubInputByteBuffer() : InputByteBuffer {
 		get() = source.arrayView
 	
 	override fun isReadable(size: Int): Boolean {
-		return readableSize >= size
+		return size >= 0 && readableSize >= size
 	}
 	
 	override fun readByte(): Byte {
@@ -88,6 +91,7 @@ class SubInputByteBuffer() : InputByteBuffer {
 		if (size > _readerIndex) {
 			throw BufferUnderflowException(size, _readerIndex, true)
 		}
+		source.backRead(size)
 		_readerIndex -= size
 	}
 	
