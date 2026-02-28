@@ -13,14 +13,11 @@ kotlin {
 
 repositories {
 	mavenCentral()
-	maven("https://maven.pkg.github.com/shypl/packages").credentials {
-		username = ""
-		password = project.property("shypl.gpr.key") as String
-	}
+	maven("https://nexus.capjack.ru/repository/maven")
 }
 
 dependencies {
-	implementation("org.shypl.tool:tool-lang:1.0.1")
+	implementation("org.shypl.tool:tool-lang:1.1.0")
 	testImplementation(kotlin("test"))
 }
 
@@ -32,9 +29,9 @@ publishing {
 	publications.create<MavenPublication>("Library") {
 		from(components["java"])
 	}
-	repositories.maven("https://maven.pkg.github.com/shypl/packages").credentials {
-		username = project.property("shypl.gpr.user") as String
-		password = project.property("shypl.gpr.key") as String
+	repositories.maven(project.property("shypl.maven.url") as String).credentials {
+		username = project.property("shypl.maven.username") as String
+		password = project.property("shypl.maven.password") as String
 	}
 }
 
