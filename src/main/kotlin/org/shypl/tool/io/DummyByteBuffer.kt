@@ -25,7 +25,7 @@ object DummyByteBuffer : ByteBuffer, ByteBuffer.ArrayView {
 	}
 	
 	override fun isReadable(size: Int): Boolean {
-		return false
+		return size == 0
 	}
 	
 	override fun readByte(): Byte {
@@ -41,25 +41,37 @@ object DummyByteBuffer : ByteBuffer, ByteBuffer.ArrayView {
 	}
 	
 	override fun readToArray(target: ByteArray, offset: Int, size: Int) {
-		if (size != 0) {
+		if (size < 0) {
+			throw BufferUnderflowException(size)
+		}
+		if (size > 0) {
 			throw BufferUnderflowException(size, 0)
 		}
 	}
 	
 	override fun readToBuffer(target: OutputByteBuffer, size: Int) {
-		if (size != 0) {
+		if (size < 0) {
+			throw BufferUnderflowException(size)
+		}
+		if (size > 0) {
 			throw BufferUnderflowException(size, 0)
 		}
 	}
 	
 	override fun skipRead(size: Int) {
-		if (size != 0) {
+		if (size < 0) {
+			throw BufferUnderflowException(size)
+		}
+		if (size > 0) {
 			throw BufferUnderflowException(size, 0)
 		}
 	}
 	
 	override fun backRead(size: Int) {
-		if (size != 0) {
+		if (size < 0) {
+			throw BufferUnderflowException(size, true)
+		}
+		if (size > 0) {
 			throw BufferUnderflowException(size, 0, true)
 		}
 	}

@@ -5,6 +5,7 @@ import kotlin.test.assertContentEquals
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
 import kotlin.test.assertNotNull
+import kotlin.test.assertTrue
 
 class MoreCoverageTest {
     @Test
@@ -64,7 +65,7 @@ class MoreCoverageTest {
         DummyInputByteBuffer.skipRead(0)
         DummyInputByteBuffer.backRead(0)
         assertNotNull(DummyInputByteBuffer.arrayView)
-        assertFalse(DummyInputByteBuffer.isReadable(0))
+        assertTrue(DummyInputByteBuffer.isReadable(0))
     }
 
     @Test

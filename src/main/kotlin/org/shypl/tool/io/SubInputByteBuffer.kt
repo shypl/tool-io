@@ -12,6 +12,9 @@ class SubInputByteBuffer() : InputByteBuffer {
 	}
 	
 	fun bindSource(source: InputByteBuffer, size: Int) {
+		if (source === this) {
+			throw IllegalArgumentException("Source cannot be the same SubInputByteBuffer")
+		}
 		if (size < 0) {
 			throw BufferUnderflowException(size)
 		}

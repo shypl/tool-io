@@ -22,6 +22,12 @@ class SubInputByteBufferTest {
     }
 
     @Test
+    fun testBindSourceSelf() {
+        val sub = SubInputByteBuffer()
+        assertFailsWith<IllegalArgumentException> { sub.bindSource(sub, 1) }
+    }
+
+    @Test
     fun testReadWithinBound() {
         val source = ArrayByteBuffer()
         source.writeArray(byteArrayOf(7, 8, 9))
